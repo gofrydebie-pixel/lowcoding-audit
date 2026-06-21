@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lowcoding.be: operational stack audit</title>
+<meta name="description" content="A fixed-scope audit that maps the no-code operational stack you can no longer fully see. One document, one walkthrough. €2,500.">
+<style>
+:root {
+  --bg: #f5f1e8;
+  --panel: #fbf8f1;
+  --ink: #211f1a;
+  --muted: #6b6358;
+  --faint: #938a7c;
+  --line: #ddd5c5;
+  --accent: #1f5c4d;
+  --accent-soft: #e1ede7;
+  --card: #efe7d6;
+  --card-line: #d8cdb4;
+  --card-ink: #5a5142;
+  --bold: #b4502d;
+  --accent-ink: #ffffff;
+  --maxw: 720px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Iowan Old Style", Georgia, "Times New Roman", serif;
+  line-height: 1.6;
+  font-size: 19px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+header { padding: 26px 0; border-bottom: 1px solid var(--line); }
+.brand {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.brand b { color: var(--accent); font-weight: 600; }
+
+.hero { padding: 60px 0 50px; }
+h1 {
+  font-size: clamp(30px, 5.4vw, 46px);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 22px;
+  max-width: 17ch;
+}
+.lead {
+  font-size: 20px;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 54ch;
+  margin-bottom: 32px;
+}
+
+.hero-figure {
+  margin: 4px 0 36px;
+  padding: 28px 20px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.hero-figure svg { display: block; width: 100%; height: auto; }
+.fig-cap {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: var(--faint);
+  text-align: center;
+  margin-top: 14px;
+}
+
+section { padding: 44px 0; border-top: 1px solid var(--line); }
+.eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: inline-block;
+}
+h2 {
+  font-size: 29px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+p { margin-bottom: 17px; max-width: 60ch; }
+p:last-child { margin-bottom: 0; }
+.spacer { margin-bottom: 24px; }
+.pull {
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--ink);
+  font-style: italic;
+  border-left: 2px solid var(--accent);
+  padding-left: 20px;
+  margin: 4px 0 22px;
+  max-width: 50ch;
+}
+
+.specs { list-style: none; border-top: 1px solid var(--line); margin-top: 8px; }
+.specs li {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 17px;
+}
+.specs .k {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--faint);
+  flex-shrink: 0;
+}
+.specs .v { color: var(--ink); text-align: right; }
+.specs .v b { color: var(--bold); font-weight: 600; }
+
+.btn {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-ink);
+  text-decoration: none;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 15px 28px;
+  border-radius: 9px;
+  transition: transform .08s ease, background .15s ease;
+}
+.btn:hover { background: #18493d; }
+.btn:active { transform: translateY(1px); }
+
+.close-card {
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 14px;
+  padding: 34px 30px;
+}
+.close-card p { color: var(--card-ink); }
+a.inline { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+footer {
+  padding: 30px 0 50px;
+  border-top: 1px solid var(--line);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--faint);
+}
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+@media (max-width: 540px) {
+  body { font-size: 18px; }
+  .specs li { flex-direction: column; gap: 2px; }
+  .specs .v { text-align: left; }
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap"><span class="brand"><b>lowcoding</b>.be</span></div>
+  </header>
+
+  <main class="wrap">
+
+    <div class="hero">
+      <h1>You built your operations on no-code tools. Now you can't fully see what you built.</h1>
+      <p class="lead">Airtable, Make, n8n, Zapier, Notion, stacked on top of each other and added one piece at a time. It runs. Whether anyone still understands how it runs is a separate question.</p>
+
+      <div class="hero-figure">
+        <svg viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>From a tangle of connected tools to a clean ordered map</title>
+          <desc>Scattered nodes joined by crossing lines on the left; an arrow leads to the same nodes arranged in ordered layers on the right.</desc>
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="#1f5c4d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <text x="150" y="30" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" letter-spacing="1" fill="#938a7c">BEFORE</text>
+          <text x="530" y="30" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" letter-spacing="1" fill="#1f5c4d">THE MAP</text>
+          <g stroke="#b9af9d" stroke-width="0.75" opacity="0.85">
+            <line x1="150" y1="95" x2="88" y2="180"/>
+            <line x1="150" y1="95" x2="232" y2="155"/>
+            <line x1="88" y1="180" x2="232" y2="155"/>
+            <line x1="88" y1="180" x2="178" y2="240"/>
+            <line x1="232" y1="155" x2="178" y2="240"/>
+            <line x1="232" y1="155" x2="110" y2="255"/>
+            <line x1="178" y1="240" x2="110" y2="255"/>
+            <line x1="150" y1="95" x2="110" y2="255"/>
+            <line x1="88" y1="180" x2="110" y2="255"/>
+          </g>
+          <g fill="#efe9dc" stroke="#8a8170" stroke-width="1">
+            <circle cx="150" cy="95" r="13"/>
+            <circle cx="88" cy="180" r="13"/>
+            <circle cx="232" cy="155" r="13"/>
+            <circle cx="178" cy="240" r="13"/>
+            <circle cx="110" cy="255" r="13"/>
+          </g>
+          <line x1="298" y1="170" x2="372" y2="170" stroke="#1f5c4d" stroke-width="1.5" marker-end="url(#arr)"/>
+          <g stroke="#5dbf9f" stroke-width="0.75">
+            <line x1="470" y1="92" x2="470" y2="150"/>
+            <line x1="470" y1="92" x2="590" y2="150"/>
+            <line x1="470" y1="178" x2="470" y2="236"/>
+            <line x1="590" y1="178" x2="590" y2="236"/>
+            <line x1="470" y1="178" x2="590" y2="236"/>
+          </g>
+          <g fill="#e1ede7" stroke="#1f5c4d" stroke-width="0.75">
+            <rect x="447" y="78" width="46" height="28" rx="6"/>
+            <rect x="437" y="150" width="66" height="28" rx="6"/>
+            <rect x="557" y="150" width="66" height="28" rx="6"/>
+            <rect x="437" y="236" width="66" height="28" rx="6"/>
+            <rect x="557" y="236" width="66" height="28" rx="6"/>
+          </g>
+        </svg>
+        <div class="fig-cap">the audit turns the left into the right</div>
+      </div>
+
+      <a class="btn" id="cta-top" href="#" target="_blank" rel="noopener">Book a fit call</a>
+    </div>
+
+    <section>
+      <span class="eyebrow">The problem</span>
+      <h2>It works until someone has to explain it</h2>
+      <p>Something breaks on a Tuesday. An automation that worked fine for a year stops firing, or starts firing twice, and nobody can say why. The person who built that part is busy now, or gone. So you trace it by clicking through screens, guessing, hoping you don't break the next thing by touching this one.</p>
+      <p class="pull">The system grew faster than anyone's understanding of it.</p>
+      <p>Until there was no full picture of it left anywhere except in pieces, in a few people's heads. Plenty of companies between 1 and 80 people run their core operations this way. It holds up until someone has to explain it, change it, or hand it over. That's the moment "it works" and "we understand it" turn out to be different things.</p>
+    </section>
+
+    <section>
+      <span class="eyebrow">What the audit is</span>
+      <h2>I map the stack you actually have</h2>
+      <p>Every tool, every automation, every data flow, every dependency, and every place where one person is the only one who knows how a thing works. I follow the logic from end to end and write down what's really there, not the version that lives in someone's head.</p>
+      <p>This is diagnosis. I'm not rebuilding it for you as part of this. The point is that afterward you can see the system, make decisions about it, and direct whoever touches it next. The map is the deliverable. It isn't a setup for selling you something bigger.</p>
+    </section>
+
+    <section>
+      <span class="eyebrow">What you get</span>
+      <h2>One document and one conversation</h2>
+      <p>The document lays out the real architecture of your stack, drawn out so you can see it. It ranks the risks by how badly they'd hurt and how likely they are. It names the single points of failure, including the human ones, the places where one person leaving takes the knowledge with them. And it gives you a prioritized list of what to deal with first.</p>
+      <p>The conversation is 60 minutes, live. I walk you through the document and answer whatever it raised.</p>
+      <ul class="specs">
+        <li><span class="k">Scope</span><span class="v">Up to <b>five</b> connected platforms</span></li>
+        <li><span class="k">Turnaround</span><span class="v"><b>One to two</b> weeks</span></li>
+        <li><span class="k">Price</span><span class="v"><b>€2,500</b>, fixed, agreed up front</span></li>
+        <li><span class="k">Billing</span><span class="v">No hourly, no scope creep</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <span class="eyebrow">Who this is for</span>
+      <h2>For when you need to see it first</h2>
+      <p>This is for you if your operations run on stacked no-code tools, the thing has gotten complex enough that no single person holds all of it, and you need to see it clearly before you grow into it or hand it off.</p>
+      <p>The audit is the entry point. Sometimes the map shows that something needs building or rebuilding, and I do that work when it's needed. That gets decided afterward, case by case, once we both see what's there.</p>
+      <p>If you already know you want something built to a scope you've defined, that's a different conversation, and you can <a class="inline" id="contact-link" href="#">just reach out</a> to have it. The audit is for when you need to see the thing first.</p>
+    </section>
+
+    <section>
+      <div class="close-card">
+        <span class="eyebrow">Book a call</span>
+        <h2>A 20-minute fit call, free</h2>
+        <p>Its only job is to find out whether your situation is one I can map, and whether the audit is worth it for you. By the end of the call we'll both know whether it's a fit.</p>
+        <p class="spacer"></p>
+        <a class="btn" id="cta-bottom" href="#" target="_blank" rel="noopener">Book a fit call</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap"><span class="brand"><b>lowcoding</b>.be</span></div>
+  </footer>
+
+  <script>
+const BOOKING_URL = "https://cal.com/dimitri-vantorre/operational-stack-audit";
+const CONTACT_EMAIL = "contact@dimitrivantorre.com";
+
+document.getElementById("cta-top").href = BOOKING_URL;
+document.getElementById("cta-bottom").href = BOOKING_URL;
+document.getElementById("contact-link").href =
+  "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Build work: defined scope");
+</script>
+</body>
+</html>
